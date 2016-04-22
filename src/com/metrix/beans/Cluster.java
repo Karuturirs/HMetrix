@@ -1,24 +1,39 @@
 package com.metrix.beans;
 
+
 public class Cluster {
-		String host;
-		String port;
-		String url;
 		
-		Cluster(String host,String port){
-			this.host=host;
-			this.port=port;
-			this.url = "http://"+host+":"+port;
+		String clusterUrl;
+		String clusterName;
+		ClusterHosts clusterHosts;
+		
+		public Cluster(String clusterUrl, String clusterName,
+				ClusterHosts clusterHosts) {
+			//super();
+			this.clusterUrl = clusterUrl;
+			this.clusterName = clusterName;
+			this.clusterHosts = clusterHosts;
 		}
-		public String getHost() {
-			return host;
+		public String getClusterUrl() {
+			return clusterUrl;
+		}
+		public void setClusterUrl(String clusterUrl) {
+			this.clusterUrl = clusterUrl;
+		}
+		public String getClusterName() {
+			return clusterName;
+		}
+		public void setClusterName(String clusterName) {
+			this.clusterName = clusterName;
+		}
+		public ClusterHosts getClusterHosts() {
+			return clusterHosts;
+		}
+		public void setClusterHosts(ClusterHosts clusterHosts) {
+			this.clusterHosts = clusterHosts;
 		}
 		
-		public String getPort() {
-			return port;
-		}
-		public String getUrl() {
-			return url;
-		}
+		
+		
 		
 }

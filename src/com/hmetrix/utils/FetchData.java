@@ -1,4 +1,4 @@
-package com.metrix.utils;
+package com.hmetrix.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,9 +14,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.authentication.UserCredentials;
+import org.springframework.stereotype.Component;
 
-
-public class Consumer {
+@Component("fetchdata")
+public class FetchData {
 	@Autowired
 	private ApplicationContext appContext;
 	

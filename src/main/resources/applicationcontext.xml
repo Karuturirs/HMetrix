@@ -20,7 +20,7 @@
 	  
     <context:property-placeholder ignore-unresolvable="true" location="classpath:/maintain.properties"/>
 	<tx:annotation-driven/>  
-    <context:component-scan base-package="com.metrix" />
+   <!--  <context:component-scan base-package="com.metrix" /> -->
     <context:component-scan base-package="com.hmetrix" />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -44,9 +44,9 @@
 		</property>
 	</bean> -->
 	
-	<bean id="ambariclusters" class="com.metrix.beans.Clusters">
+	<!-- <bean id="ambariclusters" class="com.metrix.beans.Clusters">
 		<constructor-arg name="url" value="${main.ambari.cluster.url}" />
-	</bean>
+	</bean> -->
 	
 	<bean id="hcluster" class="com.hmetrix.dto.MainCluster">
 		<constructor-arg name="url" value="${main.ambari.cluster.url}" />

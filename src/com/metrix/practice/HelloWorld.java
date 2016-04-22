@@ -45,15 +45,15 @@ public class HelloWorld {
 			ModelAndView model= new ModelAndView("Start");
 			model.addObject("message", "Welcome you Starting Page!");
 			Cluster c=(Cluster) appContext.getBean("cluster");
-			System.out.println(c.getUrl());
+			//System.out.println(c.getUrl());
 			return model;
 		}
 		@RequestMapping(value = "/2", method = RequestMethod.GET)
 		public String index(Map<String, Object> model) {
 
 			System.out.println("Hello world2");
-			Consumer c= new Consumer();
-			c.processUrl("http://as000.cloudapp.net:8080/api/v1/clusters");
+			Consumer consumer = (Consumer) appContext.getBean("consumer");
+			consumer.processUrl("http://as000.cloudapp.net:8080/api/v1/clusters");
 			model.put("title", "header");
 			model.put("message","ravi sankar");
 			

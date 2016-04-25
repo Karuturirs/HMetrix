@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>  
+    <definition name="base.definition" template="/home">   
+        <put-attribute name="menu" value="/leftmetrix" />  
+        <put-attribute name="body1" value="/nodemetrix" />  
+        <put-attribute name="body2" value="/detailnodemetrix" />  
+        <put-attribute name="body3" value="/extrametrix" />  
+        <put-attribute name="footer" value="/footer" />  
+    </definition>  
+  
+</tiles-definitions>  

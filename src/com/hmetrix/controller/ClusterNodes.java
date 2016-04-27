@@ -15,6 +15,7 @@ import com.hmetrix.beans.AmbariClusterHealth;
 import com.hmetrix.beans.AmbariClusters;
 import com.hmetrix.beans.AmbariServices;
 import com.hmetrix.bo.ClusterListing;
+import com.hmetrix.bo.RestConsumer;
 
 
 @RestController
@@ -22,6 +23,7 @@ public class ClusterNodes {
 	
 	@Autowired
 	private ApplicationContext appContext;
+	
 	
 	@RequestMapping(value = "/metrix", method = RequestMethod.GET,headers="Accept=application/json")  
 	public ModelAndView fetchingMetrix(){
@@ -68,7 +70,11 @@ public class ClusterNodes {
 	public ModelAndView fetchingDetailNodeMetrix(){
 		
 		ModelAndView model = new ModelAndView("/views/detailnodemetrix.jsp");
-		AmbariClusterHealth ambs= (AmbariClusterHealth) appContext.getBean("ambariclusterhealth");
+		RestConsumer rc = (RestConsumer) appContext.getBean("restconsumer");
+		String clusterdata = rc.processUrl("http://as000.cloudapp.net:8080/api/v1/clusters/multi-node-hdfs-yarn", true, "ambariUserCredntials");
+		AmbariClusters ac=  (AmbariClusters) appContext.getBean("ambariclusters");
+	    AmbariClusterHealth ambs= (AmbariClusterHealth) appContext.getBean("ambariclusterhealth");
+	    ambs.setAmbariClusterHealth((ac.getCl()).clusterHealth(clusterdata));
 		model.addObject("message", "Diagnosis Results");
 		model.addObject("content", ambs.getAmbariClusterHealth());
 		return model;

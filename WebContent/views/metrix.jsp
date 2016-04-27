@@ -13,9 +13,11 @@
  {
  $('#ExtraMetrix').load('/HadoopMetrix/extrametrix').fadeIn("slow");
  $('#DetailNodeMetrix').load('/HadoopMetrix/detailnodemetrix').fadeIn("slow");
- }, 3000); // autorefresh the content of the div after
+ }, 5000); // autorefresh the content of the div after
             //every 1000 milliseconds(1sec)
  </script>
+ 
+ 
 <div id="clusterNodes" style="float:left;padding:10px;width:15%;border-right:1px solid black;">
 <%-- 	 <h2>${message}</h2> --%>
  	 <jsp:include page="${template}"/> 

@@ -14,12 +14,10 @@ public class AmbariClusters {
 		@Autowired
 		private ApplicationContext appContext;
 		
-		@Autowired
 		RestConsumer rc ;
-		@Autowired
 		ClusterListing cl;
-		@Autowired
 		ReadProp rp ;
+
 		
 		JSONObject ambariCluster;
 
@@ -59,11 +57,12 @@ public class AmbariClusters {
 			this.rp = rp;
 		}
 
-		public JSONObject getDataforURl(){
+		public JSONObject getClusterNodeDataforURl(){
 			String url = rp.getAmbariUrl();
 			String data = rc.processUrl(url, true, "ambariUserCredntials");
 			
 			this.ambariCluster = cl.listClusters(data);
+			
 			return  this.ambariCluster;
 		}
 		

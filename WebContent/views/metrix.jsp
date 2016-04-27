@@ -19,11 +19,13 @@
 <div id="clusterNodes" style="float:left;padding:10px;width:15%;border-right:1px solid black;">
 <%-- 	 <h2>${message}</h2> --%>
  	 <jsp:include page="${template}"/> 
-</div>
-<div id="NodeMetrix" style="float:left;padding:10px;width:80%;border-bottom:1px solid black;">
- 	<jsp:include page="${nodeMetrix}"/> 
+ 	 
+ 	<div id="NodeMetrix" style="border-top:1px solid black;" >
+ 		<jsp:include page="${nodeMetrix}"/> 
 	
-</div> 
+	</div> 
+</div>
+
 <div id="DetailNodeMetrix" style="float:left;padding:10px;width:80%;border-bottom:1px solid black;">
 	<jsp:include page="${detailnodeMetrix}"/> 
 </div>

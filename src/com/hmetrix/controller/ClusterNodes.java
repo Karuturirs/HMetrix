@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hmetrix.beans.AmbariClusterHealth;
 import com.hmetrix.beans.AmbariClusters;
+import com.hmetrix.beans.AmbariServices;
+import com.hmetrix.bo.ClusterListing;
 
 
 @RestController
@@ -45,7 +48,7 @@ public class ClusterNodes {
 		
 		ModelAndView model = new ModelAndView("/views/clusterNodes.jsp");
 		AmbariClusters ambariCluster = (AmbariClusters) appContext.getBean("ambariclusters");
-		JSONObject jo = ambariCluster.getDataforURl();
+		JSONObject jo = ambariCluster.getClusterNodeDataforURl();
 		model.addObject("message", "Cluster List");
 		model.addObject("content", jo);
 		return model;
@@ -54,17 +57,20 @@ public class ClusterNodes {
 	public ModelAndView fetchingNodeMetrix(){
 		
 		ModelAndView model = new ModelAndView("/views/nodemetrix.jsp");
-		model.addObject("message", "Node Metrix.");
-		
+	//	ClusterListing clusterlisting = (ClusterListing) appContext.getBean("clusterlisting");
+		AmbariServices ambs= (AmbariServices) appContext.getBean("ambariservices");
+		model.addObject("message", "Services.");
+		model.addObject("content", ambs.getAmbariServices());
 		return model;
 	}
+	
 	@RequestMapping(value = "/detailnodemetrix", method = RequestMethod.GET,headers="Accept=application/json")  
 	public ModelAndView fetchingDetailNodeMetrix(){
 		
 		ModelAndView model = new ModelAndView("/views/detailnodemetrix.jsp");
-		model.addObject("message", "Detail Node Metrix.");
-		Random rand= new Random();
-		model.addObject("content", "Random number:"+rand.nextInt((1000 - 0) + 1) + 0);
+		AmbariClusterHealth ambs= (AmbariClusterHealth) appContext.getBean("ambariclusterhealth");
+		model.addObject("message", "Diagnosis Results");
+		model.addObject("content", ambs.getAmbariClusterHealth());
 		return model;
 	}
 	

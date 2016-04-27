@@ -18,7 +18,13 @@
 			<property name="ambariUrl" value="${main.ambari.cluster.url}"/>
 	</bean>
 	
-	 <bean id="clusterlisting" class="com.hmetrix.bo.ClusterListing"/>
+	 <bean id="clusterlisting" class="com.hmetrix.bo.ClusterListing">
+		<constructor-arg name="ambservices" ref="ambariservices" />
+		<constructor-arg name="ambclusterhealth" ref="ambariclusterhealth" />
+	</bean> 
+	
+	<bean id="ambariclusterhealth" class="com.hmetrix.beans.AmbariClusterHealth"/>
+	<bean id="ambariservices" class="com.hmetrix.beans.AmbariServices"/>
 	
 	<bean id="restconsumer" class="com.hmetrix.bo.RestConsumer"/>
 	

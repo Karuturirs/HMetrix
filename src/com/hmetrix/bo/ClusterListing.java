@@ -4,12 +4,25 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
+
+import com.hmetrix.beans.AmbariClusterHealth;
+import com.hmetrix.beans.AmbariServices;
 
 
 public class ClusterListing {
 	@Autowired
 	private  ApplicationContext appContext;
+
+	AmbariServices ambservices;
+	AmbariClusterHealth  ambclusterhealth;
+	
+	
+	ClusterListing(AmbariServices ambservices,AmbariClusterHealth ambclusterhealth){
+		this.ambservices = ambservices;
+		this.ambclusterhealth = ambclusterhealth;
+	
+	}
+	
 	
 	public  JSONObject listClusters(String data){
 		
@@ -29,10 +42,14 @@ public class ClusterListing {
 		    clusterlist.put("href",href);
 		    RestConsumer rc = (RestConsumer) appContext.getBean("restconsumer");
 		    String clusterdata= rc.processUrl(href, true, "ambariUserCredntials");
-		   JSONArray nodesarray= listNodes(clusterdata);
-		   clusterlist.put("Nodes",nodesarray);;
+		    JSONArray nodesarray= listNodes(clusterdata);
+		    clusterlist.put("Nodes",nodesarray);;
 		    list.put(clusterlist);
-		    
+		    if(i==0){
+			    ambservices.setAmbariServices(listServices(clusterdata));
+				System.out.println(listServices(clusterdata));
+				ambclusterhealth.setAmbariClusterHealth(clusterHealth(clusterdata));
+		    }
 		}
 		
 		Mainclusterlist.put("clusters", list);
@@ -41,6 +58,7 @@ public class ClusterListing {
 	
 	
 	public  JSONArray listNodes(String data){
+		
 		JSONObject obj = new JSONObject(data);
 		JSONArray list = new JSONArray();
 		JSONArray arr = obj.getJSONArray("hosts");
@@ -65,14 +83,44 @@ public class ClusterListing {
 		    list.put(nodelist);
 		}
 		
+	
 		
 		return list;
 	}
-	/*public  void main(String[] args){
-		//"{\"href\" : \"http://as000.cloudapp.net:8080/api/v1/clusters\",\"items\" : [{\"href\" : \"http://as000.cloudapp.net:8080/api/v1/clusters/multi-node-hdfs-yarn\",\"Clusters\" : {\"cluster_name\" : \"multi-node-hdfs-yarn\",\"version\" : \"HDP-2.2\"}},{\"href\" : \"http://as000.cloudapp.net:8080/api/v1/clusters/multi-node-hdfs-yarn1\",\"Clusters\" : {\"cluster_name\" : \"multi-node-hdfs-yarn1\",\"version\" : \"HDP-2.2\"}}]}"
-		appContext = new ClassPathXmlApplicationContext("HMetrix-core-beans.xml");
-		RestConsumer rc = (RestConsumer) appContext.getBean("restconsumer");
-	    String clusterdata= rc.processUrl("http://as000.cloudapp.net:8080/api/v1/clusters", true, "ambariUserCredntials");
-		listClusters(clusterdata);
-	}*/
+	
+	public  JSONObject listServices(String data){
+		
+		JSONObject obj = new JSONObject(data);
+		JSONObject clusterobj = new JSONObject();
+		JSONArray list = new JSONArray();
+		JSONArray arr = obj.getJSONArray("services");
+		String clusterName = "";
+		for (int i = 0; i < arr.length(); i++)
+		{
+		   
+		    String hostName = arr.getJSONObject(i).getJSONObject("ServiceInfo").getString("service_name");
+		    clusterName = arr.getJSONObject(i).getJSONObject("ServiceInfo").getString("cluster_name");
+		    String href = arr.getJSONObject(i).getString("href");
+		    //System.out.println("---"+href);
+		    JSONObject nodelist =new JSONObject();
+		    nodelist.put("service_name",hostName);
+		    nodelist.put("servicehref",href);
+		    list.put(nodelist);
+		}
+		clusterobj.put("cluster",clusterName);
+		clusterobj.put("services",list);
+		
+		return clusterobj;
+	}
+	
+	public  JSONObject clusterHealth(String data){
+		
+		JSONObject obj = new JSONObject(data);
+		JSONObject clusterobj = new JSONObject();
+		clusterobj.put("cluster",obj.getJSONObject("Clusters").getString("cluster_name"));
+		clusterobj.put("health_report",obj.getJSONObject("Clusters").getJSONObject("health_report"));
+		
+		return clusterobj;
+	}
+	
 }
